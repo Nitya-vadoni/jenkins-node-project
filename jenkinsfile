@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Deploy to Node VM') {
             steps {
-                sshagent(['cb364241-186d-42b0-8482-703a1c8de104']) {
+                sshagent(['ubuntu']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.245 "
-                        cd /home/ubuntu &&
+                        cd /home/ubuntu/Node/app &&
                         git pull origin main &&
                         npm install &&
-                        pm2 restart nodeapp
+                        pm2 restart nodeapp || pm2 start index.js  --name nodeapp
                     "
                     '''
                 }
