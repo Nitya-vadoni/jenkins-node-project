@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy to Node VM') {
+            steps {
+                sshagent(['cb364241-186d-42b0-8482-703a1c8de104']) {
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.245 "
+                        cd /home/ubuntu/app &&
+                        git pull origin main &&
+                        npm install &&
+                        pm2 restart nodeapp
+                    "
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment Successful!"
+        }
+        failure {
+            echo "Deployment Failed!"
+        }
+    }
+}
