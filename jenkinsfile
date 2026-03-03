@@ -7,7 +7,7 @@ pipeline {
                 sshagent(['cb364241-186d-42b0-8482-703a1c8de104']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.245 "
-                        cd /home/ubuntu/app &&
+                        cd /home/ubuntu &&
                         git pull origin main &&
                         npm install &&
                         pm2 restart nodeapp
